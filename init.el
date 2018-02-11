@@ -147,6 +147,7 @@
 
 ;; NeoTree to work with Projectile - from https://www.emacswiki.org/emacs/NeoTree
 (setq projectile-switch-project-action 'neotree-projectile-action)
+(global-set-key [f8] 'neotree-project-dir)
 (defun neotree-project-dir ()
   "Open NeoTree using the git root."
   (interactive)
