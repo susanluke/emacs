@@ -88,6 +88,7 @@
 (add-hook 'clojure-mode-hook 'company-mode)
 (add-hook 'clojure-mode-hook 'linum-mode)
 (add-hook 'clojure-mode-hook 'show-paren-mode)
+(add-hook 'clojure-mode-hook 'aggressive-indent-mode)
 (add-hook 'clojure-mode-hook 'fci-mode)
 
 ;; CIDER Repl Mode setup
