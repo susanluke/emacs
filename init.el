@@ -90,6 +90,13 @@
 (add-hook 'clojure-mode-hook 'show-paren-mode)
 (add-hook 'clojure-mode-hook 'aggressive-indent-mode)
 (add-hook 'clojure-mode-hook 'fci-mode)
+;; From https://www.reddit.com/r/Clojure/comments/56e3hp/syntax_highlighting_for_function_calls_in_emacs/
+(add-hook 'clojure-mode-hook
+          '(lambda ()
+             (font-lock-add-keywords
+                nil
+                '(("(\\(\\w+\\)\\s-+" 1 font-lock-keyword-face)))))
+
 
 ;; CIDER Repl Mode setup
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
