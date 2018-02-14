@@ -24,6 +24,8 @@
 (require 'browse-kill-ring)
 (require 'fill-column-indicator)
 
+;; Revert buffer automatically
+(global-auto-revert-mode 1)
 
 ;; Remove trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
