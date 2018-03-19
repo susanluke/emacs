@@ -31,11 +31,14 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Make look nice - load theme
-(load-theme 'solarized-light t)
+(load-theme 'spacemacs-light t)
 
 ;; Make env vars the same in GUI as per shell
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
+
+;; Magit keyboard shortcuts
+(global-set-key (kbd "C-x g") 'magit-status)
 
 (defun show-file-name ()
   "Show the full path file name in the minibuffer."
