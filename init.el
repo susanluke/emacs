@@ -110,6 +110,7 @@
 (global-set-key (kbd "C-.") 'counsel-projectile-ag)
 
 ;; Multiple Cursors setup
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this-symbol)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this-symbol)
 (global-set-key (kbd "C-c <") 'mc/mark-all-symbols-like-this-in-defun)
