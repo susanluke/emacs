@@ -128,13 +128,23 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cider-lein-parameters "with-profile +e2e repl :headless :host ::")
+ '(cider-lein-parameters "repl :headless :host ::")
  '(custom-safe-themes
    (quote
-    ("e3fc83cdb5f9db0d0df205f5da89af76feda8c56d79a653a5d092c82c7447e02" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "e3fc83cdb5f9db0d0df205f5da89af76feda8c56d79a653a5d092c82c7447e02" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
  '(package-selected-packages
    (quote
-    (smart-mode-line leuven-theme helm-themes intellij-theme fill-column-indicator yaml-mode neotree solarized-theme browse-kill-ring exec-path-from-shell multiple-cursors counsel-projectile projectile ivy-hydra company counsel swiper ivy expand-region highlight-symbol undo-tree paredit magit cider))))
+    (spacemacs-theme smart-mode-line leuven-theme helm-themes intellij-theme fill-column-indicator yaml-mode neotree solarized-theme browse-kill-ring exec-path-from-shell multiple-cursors counsel-projectile projectile ivy-hydra company counsel swiper ivy expand-region highlight-symbol undo-tree paredit magit cider)))
+ '(safe-local-variable-values
+   (quote
+    ((eval add-to-list
+	   (quote cider-cljs-repl-types)
+	   (\`
+	    ("Figwheel+Integrant" "(do (require 'figwheel-sidecar.repl-api)
+               (require 'integrant.repl)
+               (integrant.repl/go)
+               (figwheel-sidecar.repl-api/cljs-repl))" nil)))
+     (cider-default-cljs-repl . "Figwheel+Integrant")))))
 
 ;; custom-set-faces was added by Custom.
 ;; If you edit it by hand, you could mess it up, so be careful.
@@ -174,3 +184,18 @@
               (neotree-dir project-dir)
               (neotree-find file-name)))
       (message "Could not find git project root."))))
+
+;; Some code from Andrea to be able to evaluate code in org mode
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sql . t)
+   (clojure . t)
+   (lisp . t)
+   (haskell . t)
+   (dot . t)
+   (ruby . t)
+   (scheme . t)
+   ;; (R . t)
+   (ditaa . t)
+   (lisp . t)
+   (python . t)))
