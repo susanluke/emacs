@@ -75,7 +75,7 @@
 
 ;; Ivy & Counsel setup
 (ivy-mode 1)
-(counsel-projectile-on)
+(counsel-projectile-mode)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 (global-set-key (kbd "C-s") 'swiper)
