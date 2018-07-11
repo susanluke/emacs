@@ -1,6 +1,13 @@
 (require 'package)
+
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
+
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/"))
+
 (package-initialize)
 
 (tool-bar-mode -1)
@@ -31,7 +38,7 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Make look nice - load theme
-(load-theme 'spacemacs-dark t)
+(load-theme 'spacemacs-light t)
 
 ;; Make env vars the same in GUI as per shell
 (when (memq window-system '(mac ns x))
@@ -147,12 +154,8 @@
     (flycheck-joker zenburn-theme json-mode dracula-theme spacemacs-theme smart-mode-line leuven-theme helm-themes intellij-theme fill-column-indicator yaml-mode neotree solarized-theme browse-kill-ring exec-path-from-shell multiple-cursors counsel-projectile projectile ivy-hydra company counsel swiper ivy expand-region highlight-symbol undo-tree paredit magit cider)))
  '(safe-local-variable-values
    (quote
-    ((eval cider-register-cljs-repl-type
-	   (quote figwheel+integrant)
-	   "(do (require 'figwheel-sidecar.repl-api)
-               (require 'integrant.repl)
-               (integrant.repl/go)
-               (figwheel-sidecar.repl-api/cljs-repl))")
+    ((scss-mode
+      (css-indent-offset . 2))
      (eval cider-register-cljs-repl-type
 	   (quote figwheel+integrant)
 	   "(do
@@ -160,14 +163,12 @@
               (require 'integrant.repl)
               (integrant.repl/go)
               (figwheel-sidecar.repl-api/cljs-repl))")
-     (scss-mode
-      (css-indent-offset . 2))
      (eval cider-register-cljs-repl-type
 	   (quote figwheel+integrant)
 	   "(do (require 'figwheel-sidecar.repl-api)
-              (require 'integrant.repl)
-              (integrant.repl/go)
-              (figwheel-sidecar.repl-api/cljs-repl))"))))
+               (require 'integrant.repl)
+               (integrant.repl/go)
+               (figwheel-sidecar.repl-api/cljs-repl))"))))
  '(scroll-bar-mode nil))
 
 ;; custom-set-faces was added by Custom.
