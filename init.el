@@ -147,14 +147,27 @@
     (flycheck-joker zenburn-theme json-mode dracula-theme spacemacs-theme smart-mode-line leuven-theme helm-themes intellij-theme fill-column-indicator yaml-mode neotree solarized-theme browse-kill-ring exec-path-from-shell multiple-cursors counsel-projectile projectile ivy-hydra company counsel swiper ivy expand-region highlight-symbol undo-tree paredit magit cider)))
  '(safe-local-variable-values
    (quote
-    ((eval add-to-list
-	   (quote cider-cljs-repl-types)
-	   (\`
-	    ("Figwheel+Integrant" "(do (require 'figwheel-sidecar.repl-api)
+    ((eval cider-register-cljs-repl-type
+	   (quote figwheel+integrant)
+	   "(do (require 'figwheel-sidecar.repl-api)
                (require 'integrant.repl)
                (integrant.repl/go)
-               (figwheel-sidecar.repl-api/cljs-repl))" nil)))
-     (cider-default-cljs-repl . "Figwheel+Integrant"))))
+               (figwheel-sidecar.repl-api/cljs-repl))")
+     (eval cider-register-cljs-repl-type
+	   (quote figwheel+integrant)
+	   "(do
+              (require 'figwheel-sidecar.repl-api)
+              (require 'integrant.repl)
+              (integrant.repl/go)
+              (figwheel-sidecar.repl-api/cljs-repl))")
+     (scss-mode
+      (css-indent-offset . 2))
+     (eval cider-register-cljs-repl-type
+	   (quote figwheel+integrant)
+	   "(do (require 'figwheel-sidecar.repl-api)
+              (require 'integrant.repl)
+              (integrant.repl/go)
+              (figwheel-sidecar.repl-api/cljs-repl))"))))
  '(scroll-bar-mode nil))
 
 ;; custom-set-faces was added by Custom.
@@ -211,3 +224,6 @@
    (lisp . t)
    (python . t)))
 (put 'downcase-region 'disabled nil)
+
+(exec-path-from-shell-copy-env "ARTIFACTORY_USER")
+(exec-path-from-shell-copy-env "ARTIFACTORY_PASSWORD")
