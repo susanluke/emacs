@@ -38,7 +38,7 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Make look nice - load theme
-(load-theme 'spacemacs-light t)
+(load-theme 'spacemacs-dark t)
 
 ;; Make env vars the same in GUI as per shell
 (when (memq window-system '(mac ns x))
@@ -49,6 +49,11 @@
 
 ;; set fill column to 80 for fci-mode
 (setq-default fill-column 80)
+
+;; set key for imenu & other window (from Mastering Emacs)
+(global-set-key (kbd "M-i") 'imenu)
+(global-set-key (kbd "M-o") 'other-window)
+
 
 (defun show-file-name ()
   "Show the full path file name in the minibuffer."
@@ -123,6 +128,13 @@
 ;; Haskell Mode
 (add-hook 'haskell-mode-hook 'intero-mode)
 
+;; SCSS Mode
+(add-hook 'scss-mode-hook
+          (lambda ()
+            (set (make-local-variable 'compile-command)
+                 (concat "stylelint --fix " buffer-file-name))))
+
+
 ;; Projectile setup
 (projectile-mode)
 (global-set-key (kbd "C-.") 'counsel-projectile-ag)
@@ -159,7 +171,8 @@
     (git-gutter-fringe git-gutter+ pretty-symbols elein clj-refactor highlight-indentation flycheck-joker zenburn-theme json-mode dracula-theme spacemacs-theme smart-mode-line leuven-theme helm-themes intellij-theme fill-column-indicator yaml-mode neotree solarized-theme browse-kill-ring exec-path-from-shell multiple-cursors counsel-projectile projectile ivy-hydra company counsel swiper ivy expand-region highlight-symbol undo-tree paredit magit cider)))
  '(safe-local-variable-values
    (quote
-    ((scss-mode
+    ((cider-figwheel-main-default-options . ":dev")
+     (scss-mode
       (css-indent-offset . 2))
      (eval cider-register-cljs-repl-type
 	   (quote figwheel+integrant)
@@ -174,7 +187,9 @@
                (require 'integrant.repl)
                (integrant.repl/go)
                (figwheel-sidecar.repl-api/cljs-repl))"))))
- '(scroll-bar-mode nil))
+ '(scroll-bar-mode nil)
+ '(sh-basic-offset 2)
+ '(winner-mode t))
 
 ;; custom-set-faces was added by Custom.
 ;; If you edit it by hand, you could mess it up, so be careful.
@@ -199,7 +214,7 @@
 ;; Easily move between windows (S-↑, S-→, ...)
 (windmove-default-keybindings)
 
-;; Make NeoTree resizeable 
+;; Make NeoTree resizeable
 ;; from - https://emacs.stackexchange.com/questions/37678/neotree-window-not-resizable
 (setq neo-window-fixed-size nil)
 ;; NeoTree to work with Projectile - from https://www.emacswiki.org/emacs/NeoTree
@@ -236,3 +251,6 @@
 
 (exec-path-from-shell-copy-env "ARTIFACTORY_USER")
 (exec-path-from-shell-copy-env "ARTIFACTORY_PASSWORD")
+
+;; Suggested by Andrea to auto-start finops-admin
+(load-file "~/fc/finops-admin/docs/configs/finops_admin_auto_start.el")
