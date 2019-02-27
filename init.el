@@ -168,7 +168,7 @@
     ("e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "ff7625ad8aa2615eae96d6b4469fcc7d3d20b2e1ebc63b761a349bebbb9d23cb" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "e3fc83cdb5f9db0d0df205f5da89af76feda8c56d79a653a5d092c82c7447e02" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
  '(package-selected-packages
    (quote
-    (git-gutter-fringe git-gutter+ pretty-symbols elein clj-refactor highlight-indentation flycheck-joker zenburn-theme json-mode dracula-theme spacemacs-theme smart-mode-line leuven-theme helm-themes intellij-theme fill-column-indicator yaml-mode neotree solarized-theme browse-kill-ring exec-path-from-shell multiple-cursors counsel-projectile projectile ivy-hydra company counsel swiper ivy expand-region highlight-symbol undo-tree paredit magit cider)))
+    (markdown-mode feature-mode git-gutter-fringe git-gutter+ pretty-symbols elein clj-refactor highlight-indentation flycheck-joker zenburn-theme json-mode dracula-theme spacemacs-theme smart-mode-line leuven-theme helm-themes intellij-theme fill-column-indicator yaml-mode neotree solarized-theme browse-kill-ring exec-path-from-shell multiple-cursors counsel-projectile projectile ivy-hydra company counsel swiper ivy expand-region highlight-symbol undo-tree paredit magit cider)))
  '(safe-local-variable-values
    (quote
     ((cider-figwheel-main-default-options . ":dev")
@@ -214,6 +214,13 @@
 ;; Easily move between windows (S-↑, S-→, ...)
 (windmove-default-keybindings)
 
+;; Enable Ctrl-H for delete
+;; suggested here: https://www.emacswiki.org/emacs/BackspaceKey
+(global-set-key (kbd "C-?") 'help-command)
+(global-set-key (kbd "M-?") 'mark-paragraph)
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "M-h") 'backward-kill-word)
+
 ;; Make NeoTree resizeable
 ;; from - https://emacs.stackexchange.com/questions/37678/neotree-window-not-resizable
 (setq neo-window-fixed-size nil)
@@ -254,3 +261,5 @@
 
 ;; Suggested by Andrea to auto-start finops-admin
 (load-file "~/fc/finops-admin/docs/configs/finops_admin_auto_start.el")
+
+
