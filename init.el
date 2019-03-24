@@ -1,36 +1,61 @@
-(require 'package)
+(setq visible-bell t)
 
-(package-initialize)
+(require 'package)
 
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-
-(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
-
 (add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/"))
+             '("org" . "https://orgmode.org/elpa/") t)
+(add-to-list 'package-pinned-packages
+	     '(cider . "melpa-stable") t)
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 
-(defun install-if-needed (package)
-  (unless (package-installed-p package)
-    (package-install package)))
+(package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents))
 
-(setq
- ca-to-install '(helm
-                 helm-ag
-                 helm-cider
-                 helm-clojuredocs
-                 helm-company
-                 helm-flycheck
-                 helm-flyspell
-                 helm-git
-                 helm-git-files
-                 helm-make
-                 helm-projectile
-                 helm-swoop))
+(defvar my-packages
+  '(
+    browse-kill-ring
+    cider
+    company
+    counsel
+    exec-path-from-shell
+    expand-region
+    fill-column-indicator
+    helm
+    helm-ag
+    helm-cider
+    helm-clojuredocs
+    helm-company
+    helm-flycheck
+    helm-flyspell
+    helm-git
+    helm-git-files
+    helm-make
+    helm-projectile
+    helm-swoop
+    highlight-symbol
+    magit
+    multiple-cursors
+    neotree
+    paredit
+    projectile
+    spacemacs-theme
+    swiper
+    undo-tree
+    ))
+
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
 
 (defun install-packages ()
   (interactive)
   (mapc 'install-if-needed ca-to-install))
+
+;;(install-packages)
 
 (require 'helm)
 (require 'helm-projectile)
@@ -143,8 +168,8 @@
 (add-hook 'clojure-mode-hook
           '(lambda ()
              (font-lock-add-keywords
-                nil
-                '(("(\\(\\w+\\)\\s-+" 1 font-lock-keyword-face)))))
+	      nil
+	      '(("(\\(\\w+\\)\\s-+" 1 font-lock-keyword-face)))))
 ;; From http://emacsredux.com/blog/2014/08/25/a-peek-at-emacs-24-dot-4-prettify-symbols-mode/
 (add-hook 'clojure-mode-hook 'prettify-symbols-mode)
 
@@ -289,7 +314,7 @@
 (exec-path-from-shell-copy-env "ARTIFACTORY_PASSWORD")
 
 ;; Suggested by Andrea to auto-start finops-admin
-(load-file "~/fc/finops-admin/docs/configs/finops_admin_auto_start.el")
+;;(load-file "~/fc/finops-admin/docs/configs/finops_admin_auto_start.el")
 
 ;; Projectile Mode
 (projectile-mode +1)
