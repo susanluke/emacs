@@ -1,5 +1,7 @@
 (require 'package)
 
+(package-initialize)
+
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
@@ -8,7 +10,33 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
-(package-initialize)
+(defun install-if-needed (package)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+(setq
+ ca-to-install '(helm
+                 helm-ag
+                 helm-cider
+                 helm-clojuredocs
+                 helm-company
+                 helm-flycheck
+                 helm-flyspell
+                 helm-git
+                 helm-git-files
+                 helm-make
+                 helm-projectile
+                 helm-swoop))
+
+(defun install-packages ()
+  (interactive)
+  (mapc 'install-if-needed ca-to-install))
+
+(require 'helm)
+(require 'helm-projectile)
+
+(helm-mode t)
+
 
 (tool-bar-mode -1)
 (add-to-list 'exec-path "/usr/local/bin/")
@@ -19,13 +47,13 @@
 (require 'undo-tree)
 (require 'highlight-symbol)
 (require 'expand-region)
-(require 'ivy)
+;; (require 'ivy)
 (require 'swiper)
 (require 'counsel)
 (require 'company)
-(require 'ivy-hydra)
+;; (require 'ivy-hydra)
 (require 'projectile)
-(require 'counsel-projectile)
+;; (require 'counsel-projectile)
 (require 'multiple-cursors)
 (require 'exec-path-from-shell)
 (require 'browse-kill-ring)
@@ -89,9 +117,9 @@
 (global-set-key (kbd "C-c <right>")  'hs-show-block)
 
 ;; Ivy & Counsel setup
-(ivy-mode 1)
-(counsel-projectile-mode)
-(setq ivy-use-virtual-buffers t)
+;; (ivy-mode 1)
+;; (counsel-projectile-mode)
+;; (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -221,6 +249,7 @@
 (global-set-key (kbd "C-h") 'delete-backward-char)
 (global-set-key (kbd "M-h") 'backward-kill-word)
 
+(require 'neotree)
 ;; Make NeoTree resizeable
 ;; from - https://emacs.stackexchange.com/questions/37678/neotree-window-not-resizable
 (setq neo-window-fixed-size nil)
@@ -262,4 +291,6 @@
 ;; Suggested by Andrea to auto-start finops-admin
 (load-file "~/fc/finops-admin/docs/configs/finops_admin_auto_start.el")
 
-
+;; Projectile Mode
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
