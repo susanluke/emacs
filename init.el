@@ -15,10 +15,12 @@
 
 (defvar my-packages
   '(
+    better-defaults
     browse-kill-ring
     cider
     company
     counsel
+    elpy
     exec-path-from-shell
     expand-region
     fill-column-indicator
@@ -49,11 +51,9 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
-(defun install-packages ()
-  (interactive)
-  (mapc 'install-if-needed ca-to-install))
 
-;;(install-packages)
+(setq inhibit-startup-message t)
+(global-linum-mode t)
 
 (require 'helm)
 (require 'helm-projectile)
@@ -171,10 +171,16 @@
 ;; From http://emacsredux.com/blog/2014/08/25/a-peek-at-emacs-24-dot-4-prettify-symbols-mode/
 (add-hook 'clojure-mode-hook 'prettify-symbols-mode)
 
-
 ;; CIDER Repl Mode setup
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (setq cider-repl-use-pretty-printing t)
+
+;; Python Mode setup
+;; https://realpython.com/emacs-the-best-python-editor/
+(setenv "PATH"
+  (concat
+    (getenv "PATH") ":" "/Users/sluke/.local/bin"))
+(elpy-enable)
 
 ;; Haskell Mode
 (add-hook 'haskell-mode-hook 'intero-mode)
@@ -220,6 +226,7 @@
  '(package-selected-packages
    (quote
     (markdown-mode feature-mode git-gutter-fringe git-gutter+ pretty-symbols elein clj-refactor highlight-indentation flycheck-joker zenburn-theme json-mode dracula-theme spacemacs-theme smart-mode-line leuven-theme helm-themes intellij-theme fill-column-indicator yaml-mode neotree solarized-theme browse-kill-ring exec-path-from-shell multiple-cursors counsel-projectile projectile ivy-hydra company counsel swiper ivy expand-region highlight-symbol undo-tree paredit magit cider)))
+ '(python-shell-interpreter "python3")
  '(safe-local-variable-values
    (quote
     ((cider-figwheel-main-default-options . ":dev")
