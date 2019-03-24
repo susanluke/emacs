@@ -1,5 +1,3 @@
-(setq visible-bell t)
-
 (require 'package)
 
 (add-to-list 'package-archives
