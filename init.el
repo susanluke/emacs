@@ -139,13 +139,11 @@
 (global-set-key (kbd "C-c <right>")  'hs-show-block)
 
 ;; Ivy & Counsel setup
-;; (ivy-mode 1)
-;; (counsel-projectile-mode)
-;; (setq ivy-use-virtual-buffers t)
+;; TODO: remove ivy and counsel stuff and replace with helm
 (setq enable-recursive-minibuffers t)
-(global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "C-s") 'helm-swoop)
 (global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c r") 'ivy-resume)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
@@ -193,7 +191,6 @@
 
 ;; Projectile setup
 (projectile-mode)
-;;(global-set-key (kbd "C-.") 'counsel-projectile-ag)
 (global-set-key (kbd "C-.") 'helm-projectile-ag)
 
 ;; Multiple Cursors setup
@@ -284,21 +281,20 @@
 ;; from - https://emacs.stackexchange.com/questions/37678/neotree-window-not-resizable
 (setq neo-window-fixed-size nil)
 ;; NeoTree to work with Projectile - from https://www.emacswiki.org/emacs/NeoTree
-;;(setq projectile-switch-project-action 'neotree-projectile-action)
+(setq neo-smart-open t)
+(defun neotree-project-dir ()
+  "Open NeoTree using the git root."
+  (interactive)
+  (let ((project-dir (projectile-project-root))
+        (file-name (buffer-file-name)))
+    (neotree-toggle)
+    (if project-dir
+        (if (neo-global--window-exists-p)
+            (progn
+              (neotree-dir project-dir)
+              (neotree-find file-name)))
+      (message "Could not find git project root."))))
 (global-set-key [f8] 'neotree-project-dir)
-;;;; Commented out as it doesn't work
-;; (defun neotree-project-dir ()
-;;   "Open NeoTree using the git root."
-;;   (interactive)
-;;   (let ((project-dir (projectile-project-root))
-;;         (file-name (buffer-file-name)))
-;;     (neotree-toggle)
-;;     (if project-dir
-;;         (if (neo-global--window-exists-p)
-;;             (progn
-;;               (neotree-dir project-dir)
-;;               (neotree-find file-name)))
-;;       (message "Could not find git project root."))))
 
 ;; Some code from Andrea to be able to evaluate code in org mode
 (org-babel-do-load-languages
@@ -324,4 +320,18 @@
 
 ;; Projectile Mode
 (projectile-mode +1)
-(define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+;; allow C-h to be used as delete in helm
+;; from https://emacs.stackexchange.com/questions/5486/helm-override-c-h
+;; (setq help-char nil)
+(eval-after-load "helm-files"
+  '(let ((helm-find-files-C-h-map (lookup-key helm-find-files-map (kbd "C-h"))))
+     ;; make sure C-h is no longer a prefix key
+     (define-key helm-find-files-map (kbd "C-h") nil)
+     ;; rebind "C-h ..." to "M-m ..." to preserve functionality
+     (define-key helm-find-files-map (kbd "M-m") helm-find-files-C-h-map)))
+
+;; From https://github.com/emacs-helm/helm/issues/745
+(define-key helm-map (kbd "C-h") nil)
+(define-key helm-map (kbd "C-h") 'helm-ff-delete-char-backward)
