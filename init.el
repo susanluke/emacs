@@ -142,7 +142,7 @@
 ;; TODO: remove ivy and counsel stuff and replace with helm
 (setq enable-recursive-minibuffers t)
 (global-set-key (kbd "C-s") 'helm-swoop)
-(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c r") 'ivy-resume)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
