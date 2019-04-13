@@ -18,12 +18,14 @@
     better-defaults
     browse-kill-ring
     cider
+    clj-refactor
     company
     counsel
     elpy
     exec-path-from-shell
     expand-region
     fill-column-indicator
+    flycheck-joker
     helm
     helm-ag
     helm-cider
@@ -148,6 +150,18 @@
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
 ;; Clojure Mode setup
+;; from https://github.com/clojure-emacs/clj-refactor.el
+(require 'clj-refactor)
+(defun my-clojure-mode-hook ()
+    (clj-refactor-mode 1)
+    (yas-minor-mode 1) ; for adding require/use/import statements
+    ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+    (cljr-add-keybindings-with-prefix "C-c C-m"))
+(add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
+;; from https://github.com/candid82/flycheck-joker
+(require 'flycheck-joker)
+
+
 (add-hook 'clojure-mode-hook 'hs-minor-mode)
 (add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook 'highlight-symbol-mode)
@@ -335,3 +349,4 @@
 ;; From https://github.com/emacs-helm/helm/issues/745
 (define-key helm-map (kbd "C-h") nil)
 (define-key helm-map (kbd "C-h") 'helm-ff-delete-char-backward)
+(put 'upcase-region 'disabled nil)
