@@ -1,5 +1,10 @@
 (require 'package)
 
+;; from https://stackoverflow.com/questions/5052088/what-is-custom-set-variables-and-faces-in-my-emacs
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+
+
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
@@ -18,7 +23,7 @@
     better-defaults
     browse-kill-ring
     cider
-    clj-refactor
+    ;;clj-refactor
     company
     counsel
     elpy
@@ -26,6 +31,7 @@
     expand-region
     fill-column-indicator
     flycheck-joker
+    git-gutter
     helm
     helm-ag
     helm-cider
@@ -53,38 +59,36 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
-(setq inhibit-startup-message t)
-;;(global-linum-mode t)
-(global-display-line-numbers-mode t)
-(global-git-gutter-mode t)
-;;(setq display-line-numbers t)
-
 (require 'helm)
 (require 'helm-projectile)
-
-(helm-mode t)
-(helm-projectile-on)
-
-(tool-bar-mode -1)
-(add-to-list 'exec-path "/usr/local/bin/")
-
 (require 'cider)
 (require 'magit)
 (require 'paredit)
 (require 'undo-tree)
 (require 'highlight-symbol)
 (require 'expand-region)
-;; (require 'ivy)
 (require 'swiper)
 (require 'counsel)
 (require 'company)
-;; (require 'ivy-hydra)
 (require 'projectile)
-;; (require 'counsel-projectile)
 (require 'multiple-cursors)
 (require 'exec-path-from-shell)
 (require 'browse-kill-ring)
 (require 'fill-column-indicator)
+
+(setq inhibit-startup-message t)
+(global-display-line-numbers-mode t)
+(global-git-gutter-mode t)
+(tool-bar-mode -1)
+(add-to-list 'exec-path "/usr/local/bin/")
+
+
+(helm-mode t)
+(helm-projectile-on)
+
+
+
+
 
 ;; Enable replacing & deleting of highlighted text
 ;; https://www.gnu.org/software/emacs/manual/html_node/efaq/Replacing-highlighted-text.html
@@ -142,13 +146,13 @@
 (global-undo-tree-mode)
 
 ;; Hide/Show setup
+;; TODO: these conflict with winner mode
 (global-set-key (kbd "C-c <up>")    'hs-hide-all)
 (global-set-key (kbd "C-c <down>")  'hs-show-all)
 (global-set-key (kbd "C-c <left>") 'hs-hide-block)
 (global-set-key (kbd "C-c <right>")  'hs-show-block)
 
-;; Ivy & Counsel setup
-;; TODO: remove ivy and counsel stuff and replace with helm
+;; Helm setup
 (setq enable-recursive-minibuffers t)
 (global-set-key (kbd "C-s") 'helm-swoop)
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -163,12 +167,12 @@
 
 ;; Clojure Mode setup
 ;; from https://github.com/clojure-emacs/clj-refactor.el
-(require 'clj-refactor)
-(defun my-clojure-mode-hook ()
-    (clj-refactor-mode 1)
-    (yas-minor-mode 1) ; for adding require/use/import statements
-    ;; This choice of keybinding leaves cider-macroexpand-1 unbound
-    (cljr-add-keybindings-with-prefix "C-c C-m"))
+;;(require 'clj-refactor)
+;;(defun my-clojure-mode-hook ()
+;;    (clj-refactor-mode 1)
+;;    (yas-minor-mode 1) ; for adding require/use/import statements
+;;    ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+;;    (cljr-add-keybindings-with-prefix "C-c C-m"))
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 ;; from https://github.com/candid82/flycheck-joker
 (require 'flycheck-joker)
@@ -178,7 +182,6 @@
 (add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook 'highlight-symbol-mode)
 (add-hook 'clojure-mode-hook 'company-mode)
-;;(add-hook 'clojure-mode-hook 'linum-mode)
 (add-hook 'clojure-mode-hook 'show-paren-mode)
 (add-hook 'clojure-mode-hook 'aggressive-indent-mode)
 (add-hook 'clojure-mode-hook 'fci-mode)
@@ -196,6 +199,7 @@
 
 ;; CIDER Repl Mode setup
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
+(add-hook 'cider-repl-mode-hook 'aggressive-indent-mode)
 (setq cider-repl-use-pretty-printing t)
 
 ;; Python Mode setup
@@ -396,8 +400,4 @@
 
     (selected-window)))
 
-
-
-
 (setq helm-split-window-preferred-function #'my-helm-split-window)
-;;
