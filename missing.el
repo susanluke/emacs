@@ -95,51 +95,6 @@
  )
 
 
-;; Easily move between windows (S-↑, S-→, ...)
-(windmove-default-keybindings)
-
-;; Enable Ctrl-H for delete
-;; suggested here: https://www.emacswiki.org/emacs/BackspaceKey
-(global-set-key (kbd "C-?") 'help-command)
-(global-set-key (kbd "M-?") 'mark-paragraph)
-(global-set-key (kbd "C-h") 'delete-backward-char)
-(global-set-key (kbd "M-h") 'backward-kill-word)
-
-(require 'neotree)
-;; Make NeoTree resizeable
-;; from - https://emacs.stackexchange.com/questions/37678/neotree-window-not-resizable
-(setq neo-window-fixed-size nil)
-;; NeoTree to work with Projectile - from https://www.emacswiki.org/emacs/NeoTree
-(setq neo-smart-open t)
-(defun neotree-project-dir ()
-  "Open NeoTree using the git root."
-  (interactive)
-  (let ((project-dir (projectile-project-root))
-        (file-name (buffer-file-name)))
-    (neotree-toggle)
-    (if project-dir
-        (if (neo-global--window-exists-p)
-            (progn
-              (neotree-dir project-dir)
-              (neotree-find file-name)))
-      (message "Could not find git project root."))))
-(global-set-key [f8] 'neotree-project-dir)
-
-;; Some code from Andrea to be able to evaluate code in org mode
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((sql . t)
-   (clojure . t)
-   (lisp . t)
-   (haskell . t)
-   (dot . t)
-   (ruby . t)
-   (scheme . t)
-   ;; (R . t)
-   (ditaa . t)
-   (lisp . t)
-   (python . t)))
-(put 'downcase-region 'disabled nil)
 
 (exec-path-from-shell-copy-env "ARTIFACTORY_USER")
 (exec-path-from-shell-copy-env "ARTIFACTORY_PASSWORD")
@@ -147,24 +102,6 @@
 ;; Suggested by Andrea to auto-start finops-admin
 ;;(load-file "~/fc/finops-admin/docs/configs/finops_admin_auto_start.el")
 
-;; Projectile Mode
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-
-;; allow C-h to be used as delete in helm
-;; from https://emacs.stackexchange.com/questions/5486/helm-override-c-h
-;; (setq help-char nil)
-(eval-after-load "helm-files"
-  '(let ((helm-find-files-C-h-map (lookup-key helm-find-files-map (kbd "C-h"))))
-     ;; make sure C-h is no longer a prefix key
-     (define-key helm-find-files-map (kbd "C-h") nil)
-     ;; rebind "C-h ..." to "M-m ..." to preserve functionality
-     (define-key helm-find-files-map (kbd "M-m") helm-find-files-C-h-map)))
-
-;; From https://github.com/emacs-helm/helm/issues/745
-(define-key helm-map (kbd "C-h") nil)
-(define-key helm-map (kbd "C-h") 'helm-ff-delete-char-backward)
-(put 'upcase-region 'disabled nil)
 
 ;; from andrea - to get helm to size nicely - but it doesn't seem to worc
 (helm-autoresize-mode t)

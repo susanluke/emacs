@@ -59,23 +59,24 @@
     (package-install p)))
 
 
-(require 'helm)
-(require 'helm-projectile)
-(require 'cider)
-(require 'magit)
-(require 'paredit)
-(require 'undo-tree)
-(require 'highlight-symbol)
-(require 'expand-region)
-(require 'swiper)
-(require 'counsel)
-(require 'company)
-(require 'projectile)
-(require 'multiple-cursors)
-(require 'exec-path-from-shell)
 (require 'browse-kill-ring)
+(require 'cider)
+(require 'company)
+(require 'counsel)
+(require 'exec-path-from-shell)
+(require 'expand-region)
 (require 'fill-column-indicator)
 (require 'flycheck-joker)
+(require 'helm)
+(require 'helm-projectile)
+(require 'highlight-symbol)
+(require 'magit)
+(require 'multiple-cursors)
+(require 'neotree)
+(require 'paredit)
+(require 'projectile)
+(require 'swiper)
+(require 'undo-tree)
 
 ;; Basic settings
 (setq inhibit-startup-message t)
@@ -95,6 +96,12 @@
 ;; set fill column to 80 for fci-mode
 (setq-default fill-column 80)
 
+;; Enable Ctrl-H for delete
+;; suggested here: https://www.emacswiki.org/emacs/BackspaceKey
+(global-set-key (kbd "C-?") 'help-command)
+(global-set-key (kbd "M-?") 'mark-paragraph)
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "M-h") 'backward-kill-word)
 
 ;; set key for imenu & other window (from Mastering Emacs)
 (global-set-key (kbd "M-i") 'imenu)
@@ -125,6 +132,9 @@
 (global-set-key (kbd "S-C-<down>") 'shrink-window)
 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
+;; Easily move between windows (S-↑, S-→, ...)
+(windmove-default-keybindings)
+
 (defun show-file-name ()
   "Show the full path file name in the minibuffer."
   (interactive)
@@ -141,6 +151,9 @@
 ;; Projectile setup
 (projectile-mode)
 (global-set-key (kbd "C-.") 'helm-projectile-ag)
+;; Projectile Mode
+;;(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; Multiple Cursors setup
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -173,6 +186,53 @@
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 (global-set-key (kbd "C-x b") 'helm-mini)
 (global-set-key (kbd "C-c h o") 'helm-occur)
+
+;; allow C-h to be used as delete in helm
+;; from https://emacs.stackexchange.com/questions/5486/helm-override-c-h
+;; (setq help-char nil)
+(eval-after-load "helm-files"
+  '(let ((helm-find-files-C-h-map (lookup-key helm-find-files-map (kbd "C-h"))))
+     ;; make sure C-h is no longer a prefix key
+     (define-key helm-find-files-map (kbd "C-h") nil)
+     ;; rebind "C-h ..." to "M-m ..." to preserve functionality
+     (define-key helm-find-files-map (kbd "M-m") helm-find-files-C-h-map)))
+
+;; From https://github.com/emacs-helm/helm/issues/745
+(define-key helm-map (kbd "C-h") nil)
+(define-key helm-map (kbd "C-h") 'helm-ff-delete-char-backward)
+(put 'upcase-region 'disabled nil)
+
+;; from andrea - to get helm to size nicely - but it doesn't seem to worc
+(helm-autoresize-mode t)
+
+(setq helm-buffers-fuzzy-matching t
+      helm-recentf-fuzzy-match t
+      helm-locate-fuzzy-match t
+      helm-use-frame-when-more-than-two-windows nil
+      helm-M-x-fuzzy-match t)
+
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
+
+;; NeoTree
+;; Make NeoTree resizeable
+;; from - https://emacs.stackexchange.com/questions/37678/neotree-window-not-resizable
+(setq neo-window-fixed-size nil)
+;; NeoTree to work with Projectile - from https://www.emacswiki.org/emacs/NeoTree
+(setq neo-smart-open t)
+(defun neotree-project-dir ()
+  "Open NeoTree using the git root."
+  (interactive)
+  (let ((project-dir (projectile-project-root))
+        (file-name (buffer-file-name)))
+    (neotree-toggle)
+    (if project-dir
+        (if (neo-global--window-exists-p)
+            (progn
+              (neotree-dir project-dir)
+              (neotree-find file-name)))
+      (message "Could not find git project root."))))
+(global-set-key [f8] 'neotree-project-dir)
 
 ;; Clojure Mode setup
 (add-hook 'clojure-mode-hook 'hs-minor-mode)
@@ -215,5 +275,19 @@
             (set (make-local-variable 'compile-command)
                  (concat "stylelint --fix " buffer-file-name))))
 
-
-
+;; Org Mode
+;; Some code from Andrea to be able to evaluate code in org mode
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sql . t)
+   (clojure . t)
+   (lisp . t)
+   (haskell . t)
+   (dot . t)
+   (ruby . t)
+   (scheme . t)
+   ;; (R . t)
+   (ditaa . t)
+   (lisp . t)
+   (python . t)))
+(put 'downcase-region 'disabled nil)
