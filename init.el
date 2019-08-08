@@ -84,6 +84,8 @@
 (global-git-gutter-mode t)
 ;; Remove dated looking toolbar
 (tool-bar-mode -1)
+;; Remove scrollbars
+(scroll-bar-mode -1)
 ;; Enable replacing & deleting of highlighted text
 ;; https://www.gnu.org/software/emacs/manual/html_node/efaq/Replacing-highlighted-text.html
 (delete-selection-mode 1)
@@ -95,7 +97,7 @@
 (load-theme 'spacemacs-dark t)
 ;; set fill column to 80 for fci-mode
 (setq-default fill-column 80)
-;; Add to exec-path (required for running lein) 
+;; Add to exec-path (required for running lein)
 (add-to-list 'exec-path "/usr/local/bin/")
 
 ;; Enable Ctrl-H for delete
