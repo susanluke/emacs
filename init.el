@@ -95,6 +95,8 @@
 (load-theme 'spacemacs-dark t)
 ;; set fill column to 80 for fci-mode
 (setq-default fill-column 80)
+;; Add to exec-path (required for running lein) 
+(add-to-list 'exec-path "/usr/local/bin/")
 
 ;; Enable Ctrl-H for delete
 ;; suggested here: https://www.emacswiki.org/emacs/BackspaceKey
@@ -257,6 +259,7 @@
 ;; CIDER Repl Mode setup
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'cider-repl-mode-hook 'aggressive-indent-mode)
+(add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "C-S-k") #'paredit-copy-as-kill)))
 (setq cider-repl-use-pretty-printing t)
 
 ;; Python Mode setup

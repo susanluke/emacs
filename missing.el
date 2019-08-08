@@ -2,7 +2,6 @@
 
 
 
-(add-to-list 'exec-path "/usr/local/bin/")
 
 
 
@@ -103,16 +102,6 @@
 ;;(load-file "~/fc/finops-admin/docs/configs/finops_admin_auto_start.el")
 
 
-;; from andrea - to get helm to size nicely - but it doesn't seem to worc
-(helm-autoresize-mode t)
-
-(setq helm-buffers-fuzzy-matching t
-      helm-recentf-fuzzy-match t
-      helm-locate-fuzzy-match t
-      helm-use-frame-when-more-than-two-windows nil
-      helm-M-x-fuzzy-match t)
-
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
 
 
