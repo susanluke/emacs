@@ -82,6 +82,7 @@
 (setq inhibit-startup-message t)
 (global-display-line-numbers-mode t)
 (global-git-gutter-mode t)
+(winner-mode t)
 ;; Remove dated looking toolbar
 (tool-bar-mode -1)
 ;; Remove scrollbars
