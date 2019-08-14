@@ -81,6 +81,7 @@
 ;; Basic settings
 (setq inhibit-startup-message t)
 (global-display-line-numbers-mode t)
+(column-number-mode t)
 (global-git-gutter-mode t)
 (winner-mode t)
 ;; Remove dated looking toolbar
@@ -258,11 +259,15 @@
         '(("(\\(\\w+\\)\\s-+" 1 font-lock-keyword-face)))))
 ;; From http://emacsredux.com/blog/2014/08/25/a-peek-at-emacs-24-dot-4-prettify-symbols-mode/
 (add-hook 'clojure-mode-hook 'prettify-symbols-mode)
+;; From https://docs.cider.mx/cider/config/basic_config.html
+(setq cider-save-file-on-load t)
 
 ;; CIDER Repl Mode setup
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'cider-repl-mode-hook 'aggressive-indent-mode)
 (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "C-S-k") #'paredit-copy-as-kill)))
+(add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "C-c C-q") #'cider-quit)))
+(add-hook 'cider-repl-mode-hook 'highlight-symbol-mode)
 (setq cider-repl-use-pretty-printing t)
 
 ;; Python Mode setup
