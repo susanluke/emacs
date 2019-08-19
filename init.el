@@ -19,6 +19,7 @@
 
 (defvar my-packages
   '(
+    aggressive-indent-mode
     better-defaults
     browse-kill-ring
     cider
@@ -77,6 +78,8 @@
 (require 'projectile)
 (require 'swiper)
 (require 'undo-tree)
+
+(exec-path-from-shell-initialize)
 
 ;; Basic settings
 (setq inhibit-startup-message t)
