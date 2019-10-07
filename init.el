@@ -19,7 +19,7 @@
 
 (defvar my-packages
   '(
-    aggressive-indent-mode
+    ;;aggressive-indent-mode
     better-defaults
     browse-kill-ring
     cider
