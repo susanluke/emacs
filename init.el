@@ -21,6 +21,7 @@
   '(
     ;;aggressive-indent-mode
     better-defaults
+	blacken
     browse-kill-ring
     cider
     ;;clj-refactor
@@ -31,7 +32,9 @@
     expand-region
     fill-column-indicator
     flycheck-joker
+	flycheck
     git-gutter
+	go-autocomplete
     helm
     helm-ag
     helm-cider
@@ -76,6 +79,7 @@
 (require 'neotree)
 (require 'paredit)
 (require 'projectile)
+(require 'py-autopep8)
 (require 'swiper)
 (require 'undo-tree)
 
@@ -275,10 +279,17 @@
 
 ;; Python Mode setup
 ;; https://realpython.com/emacs-the-best-python-editor/
-(setenv "PATH"
-  (concat
-    (getenv "PATH") ":" "/Users/sluke/.local/bin"))
+(setq python-shell-interpreter "python3")
+(add-hook 'python-mode-hook 'show-paren-mode)
+(setenv "WORKON_HOME" "/Users/sluke/python-virtual-environments")
 (elpy-enable)
+;; from https://emacs.stackexchange.com/questions/52652/elpy-doesnt-recognize-i-have-virtualenv-installed
+(setq elpy-rpc-virtualenv-path 'current)
+;; Enable Flycheck
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
 
 ;; Haskell Mode
 (add-hook 'haskell-mode-hook 'intero-mode)
@@ -308,17 +319,19 @@
 
 
 ;; Go Mode
-;; from http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell (replace-regexp-in-string
-                          "[ \t\n]*$"
-                          ""
-                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq eshell-path-env path-from-shell) ; for eshell users
-    (setq exec-path (split-string path-from-shell path-separator))))
 
-(when window-system (set-exec-path-from-shell-PATH))
+;; TODO: Commmented out while I fix python
+;; from http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch
+;; (defun set-exec-path-from-shell-PATH ()
+;;   (let ((path-from-shell (replace-regexp-in-string
+;;                           "[ \t\n]*$"
+;;                           ""
+;;                           (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+;;     (setenv "PATH" path-from-shell)
+;;     (setq eshell-path-env path-from-shell) ; for eshell users
+;;     (setq exec-path (split-string path-from-shell path-separator))))
+
+;; (when window-system (set-exec-path-from-shell-PATH))
 
 (setenv "GOPATH" "/Users/sluke/go")
 
