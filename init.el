@@ -27,6 +27,7 @@
     ;;clj-refactor
     company
     counsel
+	ein                       ;; Emacs IPython Notebook
     elpy
     exec-path-from-shell
     expand-region
@@ -279,9 +280,9 @@
 
 ;; Python Mode setup
 ;; https://realpython.com/emacs-the-best-python-editor/
-(setq python-shell-interpreter "python3")
 (add-hook 'python-mode-hook 'show-paren-mode)
-(setenv "WORKON_HOME" "/Users/sluke/python-virtual-environments")
+(setenv "WORKON_HOME" "/Users/sluke")
+;; Enable elpy
 (elpy-enable)
 ;; from https://emacs.stackexchange.com/questions/52652/elpy-doesnt-recognize-i-have-virtualenv-installed
 (setq elpy-rpc-virtualenv-path 'current)
@@ -299,6 +300,18 @@
           (lambda ()
             (set (make-local-variable 'compile-command)
                  (concat "stylelint --fix " buffer-file-name))))
+;;Use IPython for REPL
+(setq elpy-shell-echo-output nil
+      python-shell-interpreter "ipython3"
+      python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
+
+;; Use Jupyter for REPL
+;; (setq elpy-shell-echo-output nil ;; suggested deep in https://github.com/jorgenschaefer/elpy/issues/1550
+;; 	  python-shell-interpreter "jupyter"
+;;       python-shell-interpreter-args "console --simple-prompt"
+;;       python-shell-prompt-detect-failure-warning nil)
+;; (add-to-list 'python-shell-completion-native-disabled-interpreters
+;; 			 "jupyter")
 
 ;; Org Mode
 ;; Some code from Andrea to be able to evaluate code in org mode
