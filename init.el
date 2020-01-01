@@ -19,7 +19,7 @@
 
 (defvar my-packages
   '(
-    ;;aggressive-indent-mode
+    aggressive-indent
     better-defaults
 	blacken
     browse-kill-ring
